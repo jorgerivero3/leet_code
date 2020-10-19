@@ -1,0 +1,40 @@
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        def writeOutput(output, num, neg):
+            
+            output *= 10
+            num = int(num)
+            if neg:
+                output -= num
+            else:
+                output += num
+            return output
+                
+        output = 0
+        i = 0 
+        neg = False
+        num = False
+        while i < len(s):
+            print(s[i])
+            if s[i] == " " and not num:
+                s = s[i+1:]
+                continue
+            if s[i] in ("+", "-") and not num:
+                if s[i] == "-":
+                    neg = True
+                num = True
+                i += 1
+                continue
+                
+            if s[i].isnumeric():
+                num = True
+                output = writeOutput(output, s[i], neg)
+                if output > 2**31 - 1:
+                    return 2**31 - 1
+                elif output < -2**31:
+                    return -2**31
+            else:
+                num = False
+                break 
+            i += 1
+        return output
